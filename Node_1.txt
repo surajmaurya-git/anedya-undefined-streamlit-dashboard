@@ -1,0 +1,71 @@
+import streamlit as st
+from components.ui.unit_ui_components import unit_header
+from components.ui.unit_ui_components import unit_details
+from components.ui.unit_ui_components import cards_section
+from components.ui.unit_ui_components import gauge_section
+from components.ui.unit_ui_components import controllers_section
+from components.ui.unit_ui_components import graph_section
+from components.ui.unit_ui_components import map_section
+from cloud.anedya_cloud import Anedya
+
+import json
+import os
+
+NODE_NUMBER = 0
+
+def draw_unit_1_dashboard():
+    global NODE_NUMBER
+
+    file_name = os.path.basename(__file__).split(".")[0]
+    pre_name = file_name.split("_")[0].capitalize()
+    NODE_NUMBER = int(file_name.split("_")[1])
+    
+    NUMBER_OF_NODES = len(st.session_state.nodesId)
+    if NUMBER_OF_NODES < NODE_NUMBER:
+        st.error("Node ID not found")
+        st.stop()
+
+    anedya = Anedya()
+    NODE_ID = st.session_state.nodesId[f"node_{NODE_NUMBER}"]
+    VARIABLES = st.session_state.variables
+
+    node = None
+    node = anedya.new_node(st.session_state.anedya_client, nodeId=NODE_ID)
+    device_status_res = node.get_deviceStatus()
+    unit_header(
+        f"{pre_name} {NODE_NUMBER}",
+        node_client=node,
+        device_status_res=device_status_res,
+    )
+    unit_details()
+
+    gauge_data_list = [20, 20, 20, 20, 0]
+    gauge_section(gauge_data_list)
+
+    vitals_value = {
+        "booking": None,
+        "timeLeft": None,
+        "endEpoch": None,
+        "napTime": None,
+        "macId": "ND",
+        "firmware": "ND",
+        "wifiSignal": None,
+        "rfidGain": None,
+        "rfid": "ND",
+        "can": None,
+        "seatSensor": [None, None],
+    }
+    res = node.get_valueStore("vitals")
+    if res.get("isSuccess"):
+        value = res.get("value")
+        vitals_value = json.loads(value)
+        # st.write(vitals_value)
+    # cards_section(vitals_value)
+
+    # controllers_section(node)
+
+    graph_section(node)
+    # map_section(node)
+
+
+draw_unit_1_dashboard()
