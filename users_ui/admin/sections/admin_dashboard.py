@@ -25,7 +25,7 @@ def adminDashboard():
         with r1_metrics_cols[0]:
             st.metric(f"Total {NODES_NAME}s", len(st.session_state.nodesId)-1,border=True)
         with r1_metrics_cols[1]:
-            total_users = st.session_state.firestore_client.collection("users").stream()
+            total_users = st.session_state.firestore_client.collection("tanUndefine").stream()
             st.metric("Total Users", len(list(total_users)),border=True)
 
 adminDashboard()

@@ -49,7 +49,7 @@ def delete_user_ui():
 
 def delete_user(email):
     try:
-        response = st.session_state.firestore_client.collection("users").document(email).delete()
+        response = st.session_state.firestore_client.collection("tanUndefine").document(email).delete()
         if response is not None:
             st.toast("User deleted successfully", icon="🎉")
         else:
@@ -62,7 +62,7 @@ def delete_user(email):
 def edit_user(email, edit_req_payload):
     try:
         response = (
-            st.session_state.firestore_client.collection("users")
+            st.session_state.firestore_client.collection("tanUndefine")
             .document(email)
             .update(edit_req_payload)
         )
@@ -127,7 +127,7 @@ def edits_user_ui():
 
 def list_users_ui():
     container = st.container(border=True)
-    list_users = st.session_state.firestore_client.collection("users").stream()
+    list_users = st.session_state.firestore_client.collection("tanUndefine").stream()
     user_dict = {user.id: user.to_dict() for user in list_users}
     # st.write(user_dict)
 

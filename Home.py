@@ -85,15 +85,15 @@ def drawLogin():
 
 def check_credentials(username,password):
     if username =="admin@gmail.com":
-        user_details = st.session_state.firestore_client.collection("users").document(username).get().to_dict()
+        user_details = st.session_state.firestore_client.collection("tanUndefine").document(username).get().to_dict()
         if user_details is None:
           email="admin@gmail.com"
           name="Super Admin"
           password="admin"
           permissions=["ALL"]
-          st.session_state.firestore_client.collection("users").document(email).set({"name":name,"role":"admin","email":email,"password":password,"permissions":permissions,"variables_access":['ALL']},merge=True)
+          st.session_state.firestore_client.collection("tanUndefine").document(email).set({"name":name,"role":"admin","email":email,"password":password,"permissions":permissions,"variables_access":['ALL']},merge=True)
 
-    user_details = st.session_state.firestore_client.collection("users").document(username).get().to_dict()
+    user_details = st.session_state.firestore_client.collection("tanUndefine").document(username).get().to_dict()
     if user_details is None:
         st.error("Invalid Credential!")
         st.stop()

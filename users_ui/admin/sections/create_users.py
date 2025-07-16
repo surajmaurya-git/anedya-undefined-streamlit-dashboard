@@ -56,7 +56,7 @@ def create_users_section():
 
 def create_user(name,email,password,permissions,variables):
     try:
-        response= st.session_state.firestore_client.collection("users").document(email).set({"name":name,"role":"user","email":email,"password":password,"permissions":permissions,"variables_access":variables},merge=True)
+        response= st.session_state.firestore_client.collection("tanUndefine").document(email).set({"name":name,"role":"user","email":email,"password":password,"permissions":permissions,"variables_access":variables},merge=True)
         if response is not None:
             st.toast("User created successfully",icon="🎉")
         else:
