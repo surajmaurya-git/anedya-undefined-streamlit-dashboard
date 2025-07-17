@@ -5,6 +5,11 @@ import pytz
 import numpy as np
 import pandas as pd
 import time
+import requests
+import csv
+import io
+from dateutil import parser
+
 from components.charts import draw_chart
 from components.ui.time_range_controller import (
     get_default_time_range,
@@ -13,6 +18,8 @@ from components.ui.time_range_controller import (
     reset_time_range,
     is_within_tolerance,
 )
+
+from cloud.influx_db import get_alerts
 
 is_options_changed = False
 
@@ -598,6 +605,51 @@ def map_section(node_client=None):
                 )
             else:
                 st.error("No Data Available")
+
+
+def custom_alert_box(message, time, color):
+    # Custom styled alert box with timestamp on the right
+    st.markdown(
+        f"""
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: {color};
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #ffcccc;
+            color: black;
+            font-size: 16px;
+            margin-bottom: 8px;
+            ">
+            <span>{message}</span>
+            <span style="font-size: 14px; color: black;">{time}</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+def  alerts_section(node_client=None):
+    container = st.container(border=True, height=600)
+    with container:
+        st.subheader(body="Alerts", anchor=False)
+        alerts=get_alerts()
+        if(len(alerts)>0):
+            for alert in alerts:
+                value = int(alert.get("value"))
+                time = alert.get("time")
+                time_gmt = parser.isoparse(time)  # or parser.parse(time)
+                time_ist = time_gmt.astimezone(pytz.timezone("Asia/Kolkata"))
+                indian_time = time_ist.strftime("%Y-%m-%d %H:%M:%S")
+                if value==1:
+                    message = "Cold Room 1: Door opened"
+                    custom_alert_box(message, indian_time, "#ffe6e6")
+                else:
+                    message = "Cold Room 1: Door closed"
+                    custom_alert_box(message, indian_time,"#ffffff")
+                    
+       
 
 
 def get_variable_key_by_name(data, search_name):

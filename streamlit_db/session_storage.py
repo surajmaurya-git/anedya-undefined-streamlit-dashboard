@@ -56,6 +56,15 @@ def initialize_session_state():
     if "doorstate1" not in st.session_state:
         st.session_state.doorstate1 = 0
 
+    if "doorstate2" not in st.session_state:
+        st.session_state.doorstate2 = 0
+
+    if "doorstate3" not in st.session_state:
+        st.session_state.doorstate3 = 0
+
+    if "doorstate4" not in st.session_state:
+        st.session_state.doorstate4 = 0
+
 
     # ======== UI controller ======================
     if "show_charts" not in st.session_state:

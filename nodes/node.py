@@ -6,6 +6,7 @@ from components.ui.unit_ui_components import gauge_section
 from components.ui.unit_ui_components import controllers_section
 from components.ui.unit_ui_components import graph_section
 from components.ui.unit_ui_components import map_section
+from components.ui.unit_ui_components import alerts_section
 from cloud.anedya_cloud import Anedya
 
 import os
@@ -35,6 +36,7 @@ def draw_unit_1_dashboard():
     gauge_section(node)
     cards_section(node)
     # controllers_section(node)
+    alerts_section(node)
     graph_section(node)
     # map_section(node)
 
