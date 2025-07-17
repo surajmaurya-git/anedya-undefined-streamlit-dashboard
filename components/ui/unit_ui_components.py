@@ -631,23 +631,25 @@ def custom_alert_box(message, time, color):
     )
 
 def  alerts_section(node_client=None):
-    container = st.container(border=True, height=600)
+    container = st.container(border=True)
     with container:
         st.subheader(body="Alerts", anchor=False)
-        alerts=get_alerts()
-        if(len(alerts)>0):
-            for alert in alerts:
-                value = int(alert.get("value"))
-                time = alert.get("time")
-                time_gmt = parser.isoparse(time)  # or parser.parse(time)
-                time_ist = time_gmt.astimezone(pytz.timezone("Asia/Kolkata"))
-                indian_time = time_ist.strftime("%Y-%m-%d %H:%M:%S")
-                if value==1:
-                    message = "Cold Room 1: Door opened"
-                    custom_alert_box(message, indian_time, "#ffe6e6")
-                else:
-                    message = "Cold Room 1: Door closed"
-                    custom_alert_box(message, indian_time,"#ffffff")
+        sub_container = st.container(border=False, height=600)
+        with sub_container:
+            alerts=get_alerts()
+            if(len(alerts)>0):
+                for alert in alerts:
+                    value = int(alert.get("value"))
+                    time = alert.get("time")
+                    time_gmt = parser.isoparse(time)  # or parser.parse(time)
+                    time_ist = time_gmt.astimezone(pytz.timezone("Asia/Kolkata"))
+                    indian_time = time_ist.strftime("%Y-%m-%d %H:%M:%S")
+                    if value==1:
+                        message = "Cold Room 1: Door opened"
+                        custom_alert_box(message, indian_time, "#ffe6e6")
+                    else:
+                        message = "Cold Room 1: Door closed"
+                        custom_alert_box(message, indian_time,"#ffffff")
                     
        
 
