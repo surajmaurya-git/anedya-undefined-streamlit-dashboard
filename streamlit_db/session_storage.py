@@ -32,6 +32,10 @@ def initialize_session_state():
     # ======== Firestore =================
     if "firestore_client" not in st.session_state:
         st.session_state.firestore_client = None
+
+    # ======== Local Storage =================
+    if "localStorage" not in st.session_state:
+        st.session_state.localStorage = None
     
 
     # ======== HTTP ======================

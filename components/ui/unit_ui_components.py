@@ -104,7 +104,10 @@ def unit_header(title, des=None, node_client=None, device_status_res=None):
     with headercols[3]:
         logout = st.button("Logout")
         if logout:
+            details = {"loggedIn": False, "time": time.time()}
+            st.session_state.localStorage.setItem("sDetails", details)
             st.session_state.LoggedIn = False
+            time.sleep(0.1)
             st.rerun()
     if des is not None:
         st.markdown(des)
