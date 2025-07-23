@@ -58,6 +58,7 @@ def project_setup():
     VARIABLES = os.getenv("VARIABLES")
     VARIABLES_JSON = json.loads(VARIABLES)
     st.session_state.variables=VARIABLES_JSON
+    print("Test") #ToDo: Remove
 
 
 def drawLogin():
