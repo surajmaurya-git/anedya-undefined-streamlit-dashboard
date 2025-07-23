@@ -15,7 +15,7 @@ from users_ui.users.users_units_dashboard import drawUsersDashboard
 
 DASHBOARD_NAME=st.secrets["DASHBOARD_NAME"]
 st.set_page_config(page_title=DASHBOARD_NAME, layout="wide")
-
+ 
 refresh_interval = 5000
 st_autorefresh(interval=refresh_interval, limit=None, key="auto-refresh-handler", debounce=True)
 
@@ -59,6 +59,8 @@ def project_setup():
     VARIABLES_JSON = json.loads(VARIABLES)
     st.session_state.variables=VARIABLES_JSON
     print("Test") #ToDo: Remove
+    print("Test") #ToDo: Remove
+
 
 
 def drawLogin():
