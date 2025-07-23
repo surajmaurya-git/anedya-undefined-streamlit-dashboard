@@ -15,7 +15,7 @@ from users_ui.users.users_units_dashboard import drawUsersDashboard
 
 DASHBOARD_NAME=st.secrets["DASHBOARD_NAME"]
 st.set_page_config(page_title=DASHBOARD_NAME, layout="wide")
-
+ 
 refresh_interval = 5000
 st_autorefresh(interval=refresh_interval, limit=None, key="auto-refresh-handler", debounce=True)
 
