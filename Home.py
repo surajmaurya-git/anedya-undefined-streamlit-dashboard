@@ -4,6 +4,7 @@ import streamlit as st
 import os
 import json
 import requests
+import time
 from streamlit_autorefresh import st_autorefresh
 from streamlit_db.session_storage import initialize_session_state
 from cloud.firestore.firestore_client_handler import firebase_db_setup
@@ -39,7 +40,6 @@ def main():
             drawAdminDashboard()
         else:
             drawUsersDashboard()
-            # pass
 
 
 def project_setup():
@@ -84,26 +84,26 @@ def drawLogin():
             
 
 def check_credentials(username,password):
-    if username =="admin@gmail.com":
-        user_details = st.session_state.firestore_client.collection("tanUndefine").document(username).get().to_dict()
-        if user_details is None:
-          email="admin@gmail.com"
-          name="Super Admin"
-          password="admin"
-          permissions=["ALL"]
-          st.session_state.firestore_client.collection("tanUndefine").document(email).set({"name":name,"role":"admin","email":email,"password":password,"permissions":permissions,"variables_access":['ALL']},merge=True)
+    ADMIN_EMAIL=st.secrets["ADMIN_EMAIL"]
+    ADMIN_PASSWORD=st.secrets["ADMIN_PASS"]
+    if username ==ADMIN_EMAIL and password == ADMIN_PASSWORD:
+        st.session_state.LoggedIn = True
+        st.session_state.view_role = "admin"
+        st.rerun()
 
-    user_details = st.session_state.firestore_client.collection("tanUndefine").document(username).get().to_dict()
+    user_details = st.session_state.firestore_client.collection("users").document(username).get().to_dict()
     if user_details is None:
         st.error("Invalid Credential!")
         st.stop()
     if password != user_details["password"]:
         st.error("Incorrect Password!")
         st.stop()
-
+    print(user_details)
     if user_details["role"] == "admin":
-        st.session_state.view_role = "admin"
         st.session_state.LoggedIn = True
+        st.session_state.view_role = "admin"
+        time.sleep(5)
+
         st.rerun()
     elif user_details["role"] == "user":
         st.session_state.view_role = "user"
