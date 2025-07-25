@@ -230,7 +230,7 @@ def gauge_section(node_client=None):
                     VARIABLE["name"],
                     cWidth=True,
                     gSize="MED",
-                    sFix="V",
+                    sFix=VARIABLE["unit"],
                     arTop=arTop,
                     arBot=arBot,
                 )
